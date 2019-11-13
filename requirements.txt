@@ -1,0 +1,15 @@
+tqdm 
+pandas 
+geopandas 
+simpledbf 
+matplotlib 
+rtree
+rasterio
+simplejson
+vega==0.5
+descartes
+plotly
+pivottablejs
+cufflinks
+LMIPy
+statsmodels
