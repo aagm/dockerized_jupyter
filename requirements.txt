@@ -13,3 +13,9 @@ pivottablejs
 cufflinks
 LMIPy
 statsmodels
+ipyleaflet
+nbdime
+tinycss2
+autopep8
+termcolor
+graphviz
