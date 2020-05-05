@@ -4,6 +4,7 @@ services:
       build: .
       volumes:
         - ${LOCAL_WORKING_DIR}:/home/jovyan/work
+        - ${LOCAL_WORKING_DIR2}:/home/jovyan/work/mars
         - ${LOCAL_DATASETS}:/home/jovyan/work/datasets
         - ${LOCAL_MODULES}:/home/jovyan/work/modules
         - ${LOCAL_SSL_CERTS}:/etc/ssl/notebook
