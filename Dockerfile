@@ -20,11 +20,14 @@ RUN apt-get update && \
     build-essential \
     libsqlite3-dev \
     zlib1g-dev \
+    manpages-dev \
     curl && \   
-    add-apt-repository -y ppa:ubuntugis/ppa && \
+    add-apt-repository -y ppa:ubuntugis/ppa && add-apt-repository ppa:nextgis/ppa && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update -q -y && \
-    apt install --no-install-recommends -q -y  gdal-bin libgdal-dev g++-5 && export CXX=g++-5 && \
+    apt install -q -y  gdal-bin python3-gdal python-gdal libgdal-dev g++ g++-5 && export CXX=g++-5 && \
 	pip install jupyter_contrib_nbextensions version_information jupyterlab
+
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal && export C_INCLUDE_PATH=/usr/include/gdal
 
 RUN jupyter contrib nbextension install --sys-prefix
 RUN mkdir -p "$NVM_DIR"; \
@@ -40,9 +43,13 @@ Run git clone https://github.com/mapbox/tippecanoe.git && \
 	cd tippecanoe && \
 	make -j && make install && cd ..
 RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+# Having to install gdal through conda gaves me chills; trying intalling it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
+RUN conda install -c conda-forge gdal
 # Add requirements file 
 ADD requirements.txt /app/
 Run pip install wheel -r /app/requirements.txt
+
+
 RUN jupyter nbextension install --sys-prefix --py vega && jupyter nbextension enable vega --py --sys-prefix && jupyter nbextension enable --py --sys-prefix ipyleaflet
  
 # Jupyter with Docker Compose
