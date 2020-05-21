@@ -1,4 +1,4 @@
-version:  '3'
+version:  '3.7'
 services:
   datascience-notebook:
       build: .
@@ -10,6 +10,8 @@ services:
         - ${LOCAL_SSL_CERTS}:/etc/ssl/notebook
       ports:
         - 8888:8888
-      container_name:   jupyter_notebook
+      container_name: jupyter_notebook
       command: "start-notebook.sh \
         --NotebookApp.token=''"
+      #extra_hosts:
+      #  - "mymachine:192.168.2.43"

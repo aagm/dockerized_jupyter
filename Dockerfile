@@ -24,7 +24,7 @@ RUN apt-get update && \
     curl && \   
     add-apt-repository -y ppa:ubuntugis/ppa && add-apt-repository ppa:nextgis/ppa && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update -q -y && \
-    apt install -q -y  gdal-bin python3-gdal python-gdal libgdal-dev g++ g++-5 && export CXX=g++-5 && \
+    apt install -q -y  gdal-bin python3-gdal python-gdal libgdal-dev g++ && export CXX=g++ && \
 	pip install jupyter_contrib_nbextensions version_information jupyterlab
 
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal && export C_INCLUDE_PATH=/usr/include/gdal
