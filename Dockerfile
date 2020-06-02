@@ -43,8 +43,8 @@ Run git clone https://github.com/mapbox/tippecanoe.git && \
 	cd tippecanoe && \
 	make -j && make install && cd ..
 RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-# Having to install gdal through conda gaves me chills; trying intalling it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
-RUN conda install -c conda-forge gdal
+# Having to install gdal through conda gaves me chills; trying installing it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
+RUN conda install -c conda-forge gdal xhistogram
 # Add requirements file 
 ADD requirements.txt /app/
 Run pip install wheel -r /app/requirements.txt
