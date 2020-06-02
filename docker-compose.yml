@@ -1,5 +1,17 @@
 version:  '3.7'
 services:
+  scheduler:
+    image: daskdev/dask
+    hostname: dask-scheduler
+    ports:
+      - "8786:8786"
+      - "8787:8787"
+    command: ["dask-scheduler"]
+
+  worker:
+    image: daskdev/dask
+    hostname: dask-worker
+    command: ["dask-worker", "tcp://scheduler:8786"]
   datascience-notebook:
       build: .
       volumes:
@@ -13,5 +25,7 @@ services:
       container_name: jupyter_notebook
       command: "start-notebook.sh \
         --NotebookApp.token=''"
+      environment:
+            - DASK_SCHEDULER_ADDRESS="tcp://scheduler:8786"
       #extra_hosts:
       #  - "mymachine:192.168.2.43"

@@ -1,5 +1,6 @@
-FROM jupyter/datascience-notebook
+FROM jupyter/datascience-notebook:latest
 
+ARG PYTHON_VERSION=3.8
 SHELL [ "/bin/bash", "-l", "-c" ]
 
 USER root
@@ -11,7 +12,7 @@ ENV GDAL_VERSION 3.0.4
 ENV ENCODING UTF-8
 ENV LOCALE en_US
 
-RUN apt-get update && \
+RUN apt-get update && \ 
     apt-get install -y --no-install-recommends \
     python3-rtree \
     software-properties-common \
@@ -44,13 +45,14 @@ Run git clone https://github.com/mapbox/tippecanoe.git && \
 	make -j && make install && cd ..
 RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 # Having to install gdal through conda gaves me chills; trying installing it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
-RUN conda install -c conda-forge gdal xhistogram
+RUN conda install -c conda-forge python==3.8 python-blosc cytoolz gdal dask==2.17.2 xhistogram lz4 nomkl dask-labextension==2.0.2 python-graphviz tini==0.18.0
 # Add requirements file 
 ADD requirements.txt /app/
 Run pip install wheel -r /app/requirements.txt
 
 
-RUN jupyter nbextension install --sys-prefix --py vega && jupyter nbextension enable vega --py --sys-prefix && jupyter nbextension enable --py --sys-prefix ipyleaflet
+RUN jupyter nbextension install --sys-prefix --py vega && jupyter nbextension enable vega --py --sys-prefix && jupyter nbextension enable --py --sys-prefix ipyleaflet && jupyter labextension install @jupyter-widgets/jupyterlab-manager dask-labextension@2.0.2 
+
  
 # Jupyter with Docker Compose
 EXPOSE 8888
