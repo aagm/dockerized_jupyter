@@ -1,7 +1,8 @@
 version:  '3.7'
 services:
   scheduler:
-    image: daskdev/dask
+    build: .
+    #image: daskdev/dask
     hostname: dask-scheduler
     ports:
       - "8786:8786"
@@ -9,7 +10,13 @@ services:
     command: ["dask-scheduler"]
 
   worker:
-    image: daskdev/dask
+    build: .
+    #image: daskdev/dask
+    volumes:
+        - ${LOCAL_WORKING_DIR}:/home/jovyan/work
+        - ${LOCAL_WORKING_DIR2}:/home/jovyan/work/mars
+        - ${LOCAL_DATASETS}:/home/jovyan/work/datasets
+        - ${LOCAL_MODULES}:/home/jovyan/work/modules
     hostname: dask-worker
     command: ["dask-worker", "tcp://scheduler:8786"]
   datascience-notebook:

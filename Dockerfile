@@ -53,6 +53,7 @@ Run pip install wheel -r /app/requirements.txt
 
 RUN jupyter nbextension install --sys-prefix --py vega && jupyter nbextension enable vega --py --sys-prefix && jupyter nbextension enable --py --sys-prefix ipyleaflet && jupyter labextension install @jupyter-widgets/jupyterlab-manager dask-labextension@2.0.2 
 
- 
+RUN mkdir /opt/app
+
 # Jupyter with Docker Compose
 EXPOSE 8888
