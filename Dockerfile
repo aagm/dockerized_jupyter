@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook:latest
+FROM jupyter/datascience-notebook:ubuntu-18.04
 
 ARG PYTHON_VERSION=3.8
 SHELL [ "/bin/bash", "-l", "-c" ]
@@ -8,7 +8,7 @@ ENV NVM_DIR /usr/local/nvm
 ENV CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 ENV GEOS_VERSION 3.8.0
 ENV PROJ4_VERSION 6.3.1
-ENV GDAL_VERSION 3.0.4
+ENV GDAL_VERSION 3.1.0
 ENV ENCODING UTF-8
 ENV LOCALE en_US
 
