@@ -23,14 +23,10 @@ RUN apt-get update && \
     zlib1g-dev \
     manpages-dev \
     curl && \   
-    add-apt-repository -y ppa:ubuntugis/ppa && add-apt-repository ppa:nextgis/ppa && \
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update -q -y && \
-    apt install -q -y  gdal-bin python3-gdal python-gdal libgdal-dev g++ && export CXX=g++ && \
-	pip install jupyter_contrib_nbextensions version_information jupyterlab
+    apt install -q -y g++ && export CXX=g++ && \
+	pip install jupyter_contrib_nbextensions version_information jupyterlab && jupyter contrib nbextension install --sys-prefix
 
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal && export C_INCLUDE_PATH=/usr/include/gdal
-
-RUN jupyter contrib nbextension install --sys-prefix
 RUN mkdir -p "$NVM_DIR"; \
     curl -o- \
         "https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh" | \
@@ -43,9 +39,9 @@ RUN npm install @mapbox/mapbox-gl-style-spec --global
 Run git clone https://github.com/mapbox/tippecanoe.git && \
 	cd tippecanoe && \
 	make -j && make install && cd ..
-RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt 
 # Having to install gdal through conda gaves me chills; trying installing it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
-RUN conda install -c conda-forge python==3.8 python-blosc cytoolz gdal dask==2.17.2 xhistogram lz4 nomkl dask-labextension==2.0.2 python-graphviz tini==0.18.0
+RUN conda update -n base conda && conda install -c conda-forge python==3.8.1 python-blosc cytoolz gdal dask==2.17.2 xhistogram lz4 nomkl dask-labextension==2.0.2 python-graphviz tini==0.18.0
 # Add requirements file 
 ADD requirements.txt /app/
 Run pip install wheel -r /app/requirements.txt
