@@ -21,8 +21,8 @@ services:
 #    command: ["dask-worker", "tcp://scheduler:8786"]
   datascience-notebook:
       build:
-        context: .
         #context: ./dockerfile-for-gdal
+        context: .
         dockerfile: Dockerfile
       volumes:
         - ${LOCAL_WORKING_DIR}:/home/jovyan/work

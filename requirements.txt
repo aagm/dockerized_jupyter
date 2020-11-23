@@ -4,11 +4,11 @@ geopandas
 simpledbf 
 matplotlib 
 rtree
-rasterio==1.1.3
-fiona==1.8.13.post1
+rasterio
+fiona
 rio-tiler-mosaic
 simplejson
-vega==0.5
+vega
 descartes
 plotly
 pivottablejs
@@ -29,3 +29,11 @@ cachetools
 geocube
 pycountry
 earthengine-api
+jupytemplate
+zarr
+gcsfs
+python-dotenv
+s3fs
+carto==1.11.1
+google-cloud-storage
+google-api-python-client

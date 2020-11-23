@@ -1,4 +1,5 @@
-FROM jupyter/datascience-notebook:ubuntu-18.04
+FROM jupyter/datascience-notebook:python-3.8.6
+
 
 ARG PYTHON_VERSION=3.8
 SHELL [ "/bin/bash", "-l", "-c" ]
@@ -25,7 +26,7 @@ RUN apt-get update && \
     curl && \   
     add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt update -q -y && \
     apt install -q -y g++ && export CXX=g++ && \
-	pip install jupyter_contrib_nbextensions version_information jupyterlab && jupyter contrib nbextension install --sys-prefix
+	pip install jupyter_contrib_nbextensions jupyter_nbextensions_configurator version_information jupyterlab && jupyter contrib nbextension install --sys-prefix && jupyter nbextensions_configurator enable
 
 RUN mkdir -p "$NVM_DIR"; \
     curl -o- \
@@ -41,13 +42,18 @@ Run git clone https://github.com/mapbox/tippecanoe.git && \
 	make -j && make install && cd ..
 RUN export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt 
 # Having to install gdal through conda gaves me chills; trying installing it through pip is failing badly. no time to dig depply on what is going on probably issues with path.
-RUN conda update -n base conda && conda install -c conda-forge python==3.8.1 python-blosc cytoolz gdal dask==2.17.2 xhistogram lz4 nomkl dask-labextension==2.0.2 python-graphviz tini==0.18.0
+RUN conda update -n base conda && conda install -c conda-forge python-blosc cytoolz gdal dask==2.30 xhistogram lz4 nomkl dask-labextension==3.0 python-graphviz tini==0.18.0 xarray=0.16.1
 # Add requirements file 
 ADD requirements.txt /app/
-Run pip install wheel -r /app/requirements.txt
+Run pip install wheel -r /app/requirements.txt 
 
 
-RUN jupyter nbextension install --sys-prefix --py vega && jupyter nbextension enable vega --py --sys-prefix && jupyter nbextension enable --py --sys-prefix ipyleaflet && jupyter labextension install @jupyter-widgets/jupyterlab-manager dask-labextension@2.0.2 
+RUN jupyter nbextension install --sys-prefix --py vega && \
+    jupyter nbextension enable vega --py --sys-prefix &&  \
+    jupyter nbextension enable --py --sys-prefix ipyleaflet && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager dask-labextension@2.0.2 && \ 
+    jupyter nbextension install --py jupytemplate --sys-prefix && \
+     jupyter nbextension enable jupytemplate/main --sys-prefix 
 
 RUN mkdir /opt/app
 
