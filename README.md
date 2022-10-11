@@ -1,92 +1,92 @@
-# Jupyter with Docker Compose
+testenv sadfas
+==============================
 
-This repository contains a simple docker-compose definition for launching the popular Jupyter Data Science Notebook.
-You can define a password with the script ```generate_token.py -p S-E-C-R-E-T``` and generate SSL certificates as described below.
+A short description of the project.
 
-## Control the container:
+Project Organization
+------------
 
-* ```docker-compose up``` mounts the directory and starts the container
-* ```docker-compose down``` destroys the container
-
-## The compose file: docker-compose.yml
-
-```bash
-version:  '3'
-services:
-  datascience-notebook:
-      image:    jupyter/datascience-notebook
-      volumes:
-        - ${LOCAL_WORKING_DIR}:/home/jovyan/work
-        - ${LOCAL_DATASETS}:/home/jovyan/work/datasets
-        - ${LOCAL_MODULES}:/home/jovyan/work/modules
-        - ${LOCAL_SSL_CERTS}:/etc/ssl/notebook
-      ports:
-        - ${PORT}:8888
-      container_name:   jupyter_notebook
-      command: "start-notebook.sh \
-        --NotebookApp.password=${ACCESS_TOKEN} \
-        --NotebookApp.certfile=/etc/ssl/notebook/jupyter.pem"
-```
-
-## Example with a custom user
-
-```YAML
-version: '2'
-services:
-    datascience-notebook:
-        image: jupyter/base-notebook:latest
-        volumes:
-            - /tmp/jupyter_test_dir:/home/docker_worker/work            
-        ports:
-            - 8891:8888
-        command: "start-notebook.sh"
-        user: root
-        environment:
-          NB_USER: docker_worker
-          NB_UID: 1008
-          NB_GID: 1011
-          CHOWN_HOME: 'yes'
-          CHOWN_HOME_OPTS: -R
+``` txt
+├── LICENSE                       <- The LICENSE using this project.
+├── README.md                     <- The top-level README for developers using this project.
+├── CHANGELOG.md                  <- The top-level CHANGELOG for developers using this project.
+├── env.default                   <- Environment vars definition
+├── Makefile                      <- Makefile with commands
+├──.editorconfig                  <- Helps maintain consistent coding styles
+├──.pre-commit-config             <- Helps setup github basic precommit hooks
+├── Dockerfile                    <- Docker file definition
+├── docker-compose.yml            <- Docker configs environment definition
+├── .dockerignore                 <- files don't want to copy inside container
+├── .gitignore                    <- files don't want to copy in githubs
+├── .github                       <- github configs
+│   └── pull_request_template.md  <- github pr template
+├── requirements.txt              <- The requirements for development
+├── data
+│   ├── processed                 <- The final, canonical data sets.
+│   └── raw                       <- The original data.
+|
+└── notebooks                     <- Naming convention is a number (for ordering),
+    │                                the creator's initials, and a short `-` delimited e.g.
+    │                                `1.0-jqp-initial-data-exploration`.
+    ├──.env
+    ├──.dockerignore
+    ├──requirements.txt           <- Notebooks requirements
+    ├──Dockerfile                 <- Sets up Jupyter notebooks environment
+    ├──jupyter_notebook_config.py <- Configure Jupyter notebooks
+    ├── template_notebooks        <- where the notebooks template will live.
+    │
+    ├── Lab                       <- Testing and development
+    │
+    └── Final                     <- The final cleaned notebooks for reports/ designers /
+                                     developers etc.
 
 ```
-## The environment file .env
 
-```bash
-# Define a local data directory
-# Set permissions for the container:
-#   sudo chown -R 1000 ${LOCAL_WORKING_DIR}
+--------
 
-LOCAL_WORKING_DIR=/data/jupyter/notebooks
+## Steps for use:
 
-# Generate an access token like this
-#   import IPython as IPython
-#   hash = IPython.lib.passwd("S-E-C-R-E-T")
-#   print(hash)
-# You can use the script generate_token.py
+#### First, setup one of your environments
 
-ACCESS_TOKEN=sha1:d4c78fe19cb5:0c8f830971d52da9d74b9985a8b87a2b80fc6e6a
+- With [docker]() and [docker-compose]() in your system, you can develop inside containers:
+``` bash
+make up
+```
+And if you want to get into the main container:
+``` bash
+make inside
+```
+------------
+- Install requirements on your machine:
+``` bash
+make requirements
+```
+- Set up a new environment in your machine
+``` bash
+make create_environment && make requirements
+```
+------------
+#### Second, Init git and initialize the github pre-hooks
+``` bash
+make init-prehooks
+```
+By default this will treat your project remote branch as `git@github.com:Vizzuality/testenv_sadfas` if you need to change it don't forget to modify the `Makefile` before running this command. Take into account that this will create a new repository under the vizzuality organization once you `git push -u origin master`
 
-# Host port
-PORT=8888
+#### Happy coding and science!
 
-# Provide data sets
-LOCAL_DATASETS=/data/jupyter/datasets
-
-# Provide local modules
-LOCAL_MODULES=/home/git/python_modules
-
-# SSL
-# Generate cert like this:
-#   openssl req -x509 -nodes -newkey rsa:2048 -keyout jupyter.pem -out jupyter.pem
-# Copy the jupyter.pem file into the location below.
-LOCAL_SSL_CERTS=/opt/ssl-certs/jupyter
+You can run your tests:
+``` bash
+make test
 ```
 
-
-
-# Version Conflicts
-
-Make sure to have the latest versions installed. You can use the Notebook Browser interface.
-```python
-pip install -U jupyter
+You can lint and reformat your code:
+``` bash
+make lint
 ```
+or up and serve the documentation:
+``` bash
+make serve-doc
+```
+
+--------
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
