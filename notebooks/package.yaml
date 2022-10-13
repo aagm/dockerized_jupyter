@@ -36,3 +36,33 @@ dependencies:
   - python-dotenv
   - pre-commit
   - click
+  - tqdm
+  - matplotlib
+  - rtree
+  - rasterio
+  - fiona
+  - simplejson
+  - vega
+  - descartes
+  - plotly
+  - pivottablejs
+  - statsmodels
+  - ipyleaflet
+  - nbdime
+  - tinycss2
+  - autopep8
+  - termcolor
+  - graphviz
+  - rasterstats
+  - rio-cogeo
+  - appdirs
+  - Click>=6.0
+  - cachetools
+  - geocube
+  - pycountry
+  - earthengine-api
+  - zarr
+  - carto==1.11.1
+  - google-cloud-storage
+  - google-api-python-client
+  - dask-labextension

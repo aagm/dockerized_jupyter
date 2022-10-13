@@ -28,6 +28,9 @@ services:
       volumes:
         - ./data:/home/mambauser/data
         - ./notebooks:/home/mambauser/notebooks
+        - ${LOCAL_WORKING_DIR}:/home/mambauser/work
+        - ${LOCAL_WORKING_DIR2}:/home/mambauser/work/mars
+        - ${LOCAL_DATASETS}:/home/mambauser/work/datasets
       ports:
         - 8887:8888
       container_name: testenv_sadfas_jupyter_notebook
